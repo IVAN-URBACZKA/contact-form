@@ -50,22 +50,6 @@ const FormLogin = ({ submit, errorLog }) => (
                 />
             </div>
 
-            <div className="flex items-center justify-between">
-                <Field
-                    name="rememberMe"
-                    label="Remember me"
-                    component={Checkbox}
-                    value={true}
-                />
-                <div className="text-sm">
-                    <Link to="/forgot-password">
-                        <span className="font-medium text-primary-dark hover:text-primary cursor-pointer">
-                            Forgot your password?
-                        </span>
-                    </Link>
-                </div>
-            </div>
-
             <div>
                 <button type="submit" className="group relative btn btn-primary w-full">
                     <span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -102,6 +86,7 @@ const Login = () => {
     const handleLogin = (values) => {
         authenticate(values)
             .then((res) => {
+                console.log(res)
                 if (res.status === 200 && res.data.id_token) {
                     dispatch(signIn(res.data.id_token));
                     if (isAuthenticated()) history.push(URL_HOME);
@@ -113,15 +98,10 @@ const Login = () => {
         <div className="bg-white p-4 rounded-md shadow max-w-md w-full space-y-8 py-12 px-4 sm:px-6 lg:px-8">
             <div>
                 <div className="flex justify-center">
-                    <img
-                        className="h-12 w-auto sm:h-10 cursor-pointer"
-                        src="https://insy2s.com/insy2s/images/Logo-insy2s-INLINE-2021.svg"
-                        alt=""
-                        width={200}
-                        height={60}
-                    />
+                <h1 className='text-2xl font-extrabold text-gray-800'>ACSEO ADMIN</h1>
+
                 </div>
-                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-800">
+                <h2 className="mt-6 text-center text-xl font-extrabold text-gray-800">
                     Sign in to your account
                 </h2>
             </div>
