@@ -3,16 +3,14 @@ import { Field, Form, Formik } from 'formik';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-
 import Input from '../../shared/components/form-and-error-components/Input';
 import { signIn } from '../../shared/redux-store/authenticationSlice';
 import { isAuthenticated } from '../../shared/services/accountServices';
 import { authenticate } from './../../api/backend/account';
 import ErrorMessSmall from './../../shared/components/form-and-error-components/ErrorMessSmall';
-import { Checkbox } from './../../shared/components/form-and-error-components/InputChoices';
 import { defaulValuesLogin } from './../../shared/constants/formik-yup/default-values-form/idefaultValuesUser';
 import { schemaFormLogin } from './../../shared/constants/formik-yup/yup/yupUser';
-import { URL_HOME } from './../../shared/constants/urls/urlConstants';
+import { URL_DASHBOARD, URL_HOME } from './../../shared/constants/urls/urlConstants';
 
 /**
  * Component Form Login
@@ -89,7 +87,7 @@ const Login = () => {
                 console.log(res)
                 if (res.status === 200 && res.data.id_token) {
                     dispatch(signIn(res.data.id_token));
-                    if (isAuthenticated()) history.push(URL_HOME);
+                    if (isAuthenticated()) history.push(URL_DASHBOARD);
                 }
             })
             .catch(() => setErrorLog(true));
