@@ -75,6 +75,7 @@ export default class ContactForm extends React.Component {
                                     const message = {
                                         name: values.name,
                                         email: values.email,
+                                        subject: values.subject,
                                         description: values.description,
                                     };
 
