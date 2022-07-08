@@ -20,13 +20,7 @@ const Navbar = () => {
                         <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
                             <div>
                                 <Link to={URL_HOME}>
-                                    <img
-                                        className="h-8 w-auto sm:h-10 cursor-pointer"
-                                        src="https://insy2s.com/insy2s/images/Logo-insy2s-INLINE-2021.svg"
-                                        alt=""
-                                        width={200}
-                                        height={60}
-                                    />
+                                    <h1 className='text-xl'>ACSEO</h1>
                                 </Link>
                             </div>
 
