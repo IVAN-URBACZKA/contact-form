@@ -66,7 +66,7 @@ export default class ContactForm extends React.Component {
 
                         <div className="w-full lg:w-1/2 xl:w-5/12 px-4">
                             <Formik
-                                initialValues={{ name: '', email: '', description: '' }}
+                                initialValues={{ name: '', email: '', subject: '', description: '' }}
                                 validationSchema={validateSchema}
                                 onChange={this.handleChange}
                                 onSubmit={(values) => {
@@ -162,7 +162,7 @@ export default class ContactForm extends React.Component {
                                             <div>{errors.email}</div>
                                         ) : null}
                                         <Field
-                                            name="message"
+                                            name="description"
                                             component="textarea"
                                             type="text"
                                             placeholder="Your message..."

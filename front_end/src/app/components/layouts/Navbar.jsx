@@ -20,7 +20,7 @@ const Navbar = () => {
                         <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
                             <div>
                                 <Link to={URL_HOME}>
-                                    <h1 className='text-xl'>ACSEO</h1>
+                                    <h1 className='text-2xl font-extrabold text-gray-800'>ACSEO</h1>
                                 </Link>
                             </div>
 
@@ -89,7 +89,7 @@ const ConnectionBtn = () => {
                     <div className="link">Sign in</div>
                 </Link>
                 <Link to={URL_REGISTER}>
-                    <button className="btn btn-green">Sign up</button>
+                    <button className="btn bg-green-400	text-white">Sign up</button>
                 </Link>
             </div>
         );

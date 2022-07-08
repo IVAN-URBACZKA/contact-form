@@ -36,14 +36,14 @@ export function hasRole(role) {
 export function isAuthenticated() {
     try {
         const token = getToken();
-        //  console.log('token', token);
+        //console.log('token', token);
         const payload = getPayloadToken();
-        // console.log('payload', payload);
-        const roles = payload.auth.split(',');
-        // console.log('roles', roles);
+        //console.log('payload', payload);
+        const roles = payload.roles;
+        //console.log('roles', roles);
         const expirationDate = payload.exp;
-        // console.log('expiration', expirationDate);
-        const login = payload.sub;
+        //console.log('expiration', expirationDate);
+        const login = payload.user;
         //console.log('login', login);
         const dateNow = new Date();
         return token && roles.length > 0 && login && expirationDate < dateNow.getTime();
