@@ -96,6 +96,8 @@ export default class ContactForm extends React.Component {
                                             this.setState({
                                                 message: data,
                                             });
+                                            window.location.replace("http://localhost:3000/");
+
                                         })
                                         .catch((err) => {
                                             console.error(err);

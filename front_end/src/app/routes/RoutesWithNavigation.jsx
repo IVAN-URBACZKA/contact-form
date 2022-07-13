@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-
 import IdleTimerCustom from './../components/account/IdleTimerCustom';
 import Navbar from './../components/layouts/Navbar';
 import { selectIsLogged } from './../shared/redux-store/authenticationSlice';

@@ -6,9 +6,6 @@
 
 @tailwind utilities;
 
-
-
-
 /* ANIMATION CSS */
 .anim-delay-100{
     animation-delay: 0.1s;
