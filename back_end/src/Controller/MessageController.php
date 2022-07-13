@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MessageController extends AbstractController
@@ -22,7 +23,6 @@ class MessageController extends AbstractController
     {
         // header("Access-Control-Allow-Origin: *");
         $data = json_decode($request->getContent());
-
 
         $em = $doctrine->getManager();
         $newMessage = (new Message())
@@ -40,28 +40,75 @@ class MessageController extends AbstractController
 
    /**
      *  JSON sender - handler
-     * @Route("/api/message/search/{searchTerm}", name="api_message_search")
+     * @Route("/api/message/search/{email}", name="api_message_search",  methods={"GET"})
      */
-    public function searchmessage(EntityManagerInterface $entityManager, $searchTerm): Response
+    public function searchmessage(ManagerRegistry $doctrine,$email): JsonResponse
     {
-        $query = $entityManager->createQuery("SELECT m FROM App:Message AS m WHERE LOWER(m.email) LIKE :search");
-        $query->setParameter('search',  $searchTerm );
-        $messages = $query->getResult();
+
+        $messages = $doctrine->getRepository(Message::class)->findBy(
+            [
+            
+            "email" => $email
+        
+            ]
+        );
 
         $data = [];
 
-        foreach ($messages as $message) {
+        foreach ($messages as $req) {
             $data[] = [
-                'id' => $message->getId(),
-                'name' => $message->getName(),
-                'email' => $message->getEmail(),
-                'subject' => $message->getSubject(),
-                'description' => $message->getDescription(),
-
+                "id" => $req->getId(),
+               "name" =>  $req->getName(),
+               "subject" => $req->getSubject(),
+               "email" => $req->getEmail(),
+               "description" =>$req->getDescription()
             ];
         }
-        $dataenc = json_encode($data);
-        return new Response($dataenc, Response::HTTP_OK);
+
+        json_encode($data);
+        return new JsonResponse($data);
+    }
+
+ /**
+     *  JSON sender - handler
+     * @Route("/api/message/{id}", name="api_message_send", methods={"GET"})
+     */
+    public function readOneMessage(EntityManagerInterface $entityManager, $id): Response
+    {
+        $req = $entityManager->getRepository(Message::class)->find($id);
+        
+        $message = [
+            "id" => $req->getId(),
+               "name" =>  $req->getName(),
+               "subject" => $req->getSubject(),
+               "email" => $req->getEmail(),
+               "description" =>$req->getDescription()
+        ];
+
+        
+
+        $dataenc = json_encode($message);
+
+        $response = new Response($dataenc, Response::HTTP_OK);
+        return $response;
+    }
+
+
+     /**
+     *  JSON sender - handler
+     * @Route("/api/delete/message/{id}", name="api_message_delete")
+     */
+    public function deleteMessage(EntityManagerInterface $em, $id): Response
+    {
+        $message = $em->getRepository(Message::class)->find($id);
+        
+        
+
+        $em->remove($message);
+        $em->flush();
+
+
+        return new Response("delete",Response::HTTP_OK);
     }
 
 
