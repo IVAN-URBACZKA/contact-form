@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-
+import './assets/styles/index.css'
+import 'react-toastify/dist/ReactToastify.css';
 import RoutesWithNavigation from './routes/RoutesWithNavigation';
 import { store } from './shared/redux-store/store';
 

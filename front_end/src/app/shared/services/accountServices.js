@@ -26,6 +26,17 @@ export function hasRole(role) {
     return accountRoles().includes(role);
 }
 
+export function isAdmin() {
+    const role = accountRoles();
+    if (role[0] === 'ROLE_ADMIN') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
 /**
  * To check if the current user is authenticated
  * Check the token, and it's validity
