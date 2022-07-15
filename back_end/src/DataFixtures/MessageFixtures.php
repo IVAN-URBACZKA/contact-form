@@ -22,6 +22,7 @@ class MessageFixtures extends Fixture
                 ->setEmail($faker->email())
                 ->setSubject($faker->words(1, true))
                 ->setDescription($faker->realText(200, 2))
+                ->setDone(false)
                 ;
             $manager->persist($product);
         }

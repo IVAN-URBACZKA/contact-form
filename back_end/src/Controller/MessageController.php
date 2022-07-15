@@ -14,6 +14,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MessageController extends AbstractController
 {
 
+
+
     /**
      * JSON reciever - listener.
      * 
@@ -29,7 +31,8 @@ class MessageController extends AbstractController
             ->setName($data->name)
             ->setEmail($data->email)
             ->setSubject($data->subject)
-            ->setDescription($data->description);
+            ->setDescription($data->description)
+            ->setDone(false);
         $em->persist($newMessage);
         $em->flush();
 
@@ -38,18 +41,41 @@ class MessageController extends AbstractController
     }
 
 
-   /**
+    /**
+     *  JSON sender - handler
+     * @Route("/api/message/state/{id}", name="api_message_done", methods={"GET","POST"})
+     */
+    public function changeStateMessage(EntityManagerInterface $em, $id): JsonResponse
+    {
+
+        $req = $em->getRepository(Message::class)->find($id);
+
+        if ($req->isDone()) {
+            $em->persist($req->setDone(false));
+        } else {
+            $em->persist($req->setDone(true));
+        }
+
+
+        $em->flush();
+
+
+
+        return new JsonResponse($req->isDone());
+    }
+
+    /**
      *  JSON sender - handler
      * @Route("/api/message/search/{email}", name="api_message_search",  methods={"GET"})
      */
-    public function searchmessage(ManagerRegistry $doctrine,$email): JsonResponse
+    public function searchmessage(ManagerRegistry $doctrine, $email): JsonResponse
     {
 
         $messages = $doctrine->getRepository(Message::class)->findBy(
             [
-            
-            "email" => $email
-        
+
+                "email" => $email
+
             ]
         );
 
@@ -58,10 +84,12 @@ class MessageController extends AbstractController
         foreach ($messages as $req) {
             $data[] = [
                 "id" => $req->getId(),
-               "name" =>  $req->getName(),
-               "subject" => $req->getSubject(),
-               "email" => $req->getEmail(),
-               "description" =>$req->getDescription()
+                "name" =>  $req->getName(),
+                "subject" => $req->getSubject(),
+                "email" => $req->getEmail(),
+                "description" => $req->getDescription(),
+                "done" => $req->isDone()
+
             ];
         }
 
@@ -69,23 +97,26 @@ class MessageController extends AbstractController
         return new JsonResponse($data);
     }
 
- /**
+
+
+    /**
      *  JSON sender - handler
      * @Route("/api/message/{id}", name="api_message_send", methods={"GET"})
      */
     public function readOneMessage(EntityManagerInterface $entityManager, $id): Response
     {
         $req = $entityManager->getRepository(Message::class)->find($id);
-        
+
         $message = [
             "id" => $req->getId(),
-               "name" =>  $req->getName(),
-               "subject" => $req->getSubject(),
-               "email" => $req->getEmail(),
-               "description" =>$req->getDescription()
+            "name" =>  $req->getName(),
+            "subject" => $req->getSubject(),
+            "email" => $req->getEmail(),
+            "description" => $req->getDescription(),
+            "done" => $req->isDone()
         ];
 
-        
+
 
         $dataenc = json_encode($message);
 
@@ -94,23 +125,21 @@ class MessageController extends AbstractController
     }
 
 
-     /**
+
+    /**
      *  JSON sender - handler
      * @Route("/api/delete/message/{id}", name="api_message_delete")
      */
     public function deleteMessage(EntityManagerInterface $em, $id): Response
     {
         $message = $em->getRepository(Message::class)->find($id);
-        
-        
+
+
 
         $em->remove($message);
         $em->flush();
 
 
-        return new Response("delete",Response::HTTP_OK);
+        return new Response("delete", Response::HTTP_OK);
     }
-
-
-
 }

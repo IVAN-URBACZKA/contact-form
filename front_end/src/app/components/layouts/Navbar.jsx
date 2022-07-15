@@ -39,7 +39,7 @@ const Navbar = () => {
                                 </Link>
                             </div>
 
-                            <div className="px-10 relative text-base bg-transparent  ">
+                            {isAuthenticated() ?  <div className="px-10 relative text-base bg-transparent  ">
                                     <div className="">
                                         {/* Search input area */}
                                         <input
@@ -64,8 +64,14 @@ const Navbar = () => {
                                             />
                                         </button>
                                     </div>
-                                </div>
-                         
+                                </div> : <div></div>
+                         }
+
+                                
+                                
+                            
+
+                           
                              
 
 
@@ -121,6 +127,7 @@ export default Navbar;
 const ConnectionBtn = () => {
     const isLogged = useSelector(selectIsLogged);
     const dispatch = useDispatch();
+    
     if (isLogged)
         return (
             <button className="ml-8 btn btn-green" onClick={() => dispatch(signOut())}>
