@@ -58,6 +58,7 @@ class DashboardView extends Component {
                                 id={message.id}
                                 name = {message.name}
                                 subject = {message.subject}
+                                done= {message.done}
                                 />
 
                             )
